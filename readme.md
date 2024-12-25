@@ -1,6 +1,6 @@
-# KOMIKTAP-JS
+# KOMIK-SCRAPER
 
-**Unofficial Web Scraping Tool for Komiktap**
+**Unofficial Web Scraping Tool for Komik**
 
 This project scrapes data from the unofficial website:
 

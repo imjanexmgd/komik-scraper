@@ -1,5 +1,5 @@
 {
-  "name": "komiktap",
+  "name": "komik-scraper",
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",

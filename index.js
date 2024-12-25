@@ -1,5 +1,8 @@
-import { getKomikDetail } from './src/komiktapHandler.js';
+import { getChapter, getKomikDetail } from './src/komiktapHandler.js';
 
-await getKomikDetail('secret-class');
-await getKomikDetail('queen-bee');
-await getKomikDetail('boarding-diary');
+const names = ['secret-class', 'boarding-diary', 'sex-stopwatch'];
+for (const name of names) {
+  const data = await getKomikDetail(name);
+  const image = await getChapter(data.data.chapter[0]);
+  console.log(image);
+}

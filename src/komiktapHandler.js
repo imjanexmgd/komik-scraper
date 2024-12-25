@@ -35,15 +35,64 @@ export const getKomikDetail = async (comicTitle) => {
     const thumbnail = $('div.seriestucontl > div.thumb > img').attr('src');
     const title = $('.entry-title[itemprop="name"]').text().trim();
     const result = {
-      title,
-      thumbnail,
-      ...info,
-      Genres: genres,
-      chapter: chapterLinks,
+      success: 'true',
+      data: {
+        title,
+        thumbnail,
+        ...info,
+        Genres: genres,
+        chapter: chapterLinks,
+      },
     };
 
-    console.log(result);
+    return result;
   } catch (error) {
     console.log('Error:', error.message);
+  }
+};
+export const getChapter = async (url) => {
+  try {
+    const { data } = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0',
+        'Accept-Encoding': 'br,gzip',
+        referer: 'https://komiktap.info/',
+        'cache-control': 'max-age=600',
+      },
+    });
+    const $ = cheerio.load(data);
+    const scriptContent = $('script')
+      .filter((i, el) => {
+        return $(el).html().includes('ts_reader.run');
+      })
+      .html();
+    const match = scriptContent.match(/ts_reader\.run\((\{.*\})\);/s);
+    if (match && match[1]) {
+      const json = JSON.parse(match[1]);
+      if (!json.sources) {
+        return {
+          success: false,
+        };
+      }
+      if (!json.sources[0].images) {
+        return {
+          success: false,
+        };
+      }
+      const data = json.sources[0].images;
+      return {
+        success: true,
+        data: {
+          url,
+          images: data,
+        },
+      };
+    } else {
+      return {
+        success: false,
+      };
+    }
+  } catch (error) {
+    console.log(`Error : ${error.message}`);
   }
 };
