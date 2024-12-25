@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as cheerio from 'cheerio';
 // KOMIKTAP-JS
 // Unofficial web scraping tool for the Komiktap website
 // Website: https://komiktap.info/
